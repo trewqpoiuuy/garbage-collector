@@ -15,7 +15,7 @@
     "watch": "yarn run build:types && yarn run watch:js",
     "watch:js": "webpack --watch --progress"
   },
-  "author": "",
+  "author": "Your Name <a@example.com>",
   "license": "MIT",
   "dependencies": {
     "core-js": "^3.8.0",

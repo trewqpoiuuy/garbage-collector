@@ -468,7 +468,7 @@ export function yachtzeeChainDiet(simOnly?: boolean): boolean {
     ? 4 - Math.min(4, 2 * get("beGregariousCharges"))
     : 0;
   const synthCastsToCoverRun =
-    globalOptions.noBarf || !have($skill`Sweet Synthesis`)
+    (globalOptions.noBarf && !globalOptions.willContinue) || !have($skill`Sweet Synthesis`)
       ? 0
       : Math.max(0, Math.round((estimatedTurns() - haveEffect($effect`Synthesis: Greed`)) / 30));
   const fullnessAvailable = fullnessLimit() - myFullness() + toInt(haveDistentionPill);

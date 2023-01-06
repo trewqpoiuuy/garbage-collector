@@ -169,6 +169,8 @@ export function main(argString = ""): void {
       globalOptions.yachtzeeChain = true;
     } else if (arg.match(/quick/)) {
       globalOptions.quickMode = true;
+    } else if (arg.match(/willcontinue/)) {
+      globalOptions.willContinue = true;
     } else if (arg.match(/version/i)) {
       return;
     } else if (arg) {
@@ -221,7 +223,7 @@ export function main(argString = ""): void {
   }
 
   startSession();
-  if (!globalOptions.noBarf && !globalOptions.simulateDiet) {
+  if ((!globalOptions.noBarf || globalOptions.willContinue) && !globalOptions.simulateDiet) {
     ensureBarfAccess();
   }
   if (globalOptions.simulateDiet) {
@@ -440,7 +442,7 @@ export function main(argString = ""): void {
         yachtzeeChain();
         dailyFights();
 
-        if (!globalOptions.noBarf) {
+        if (!globalOptions.noBarf || globalOptions.willContinue) {
           // 3. burn turns at barf
           potionSetup(false);
           maximize("MP", false);

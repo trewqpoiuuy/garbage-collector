@@ -277,14 +277,14 @@ export class Potion {
       values.push({
         name: "overlap",
         quantity: limitFunction(1),
-        value: this.gross(overlapEmbezzlers, globalOptions.noBarf ? overlapEmbezzlers : undefined),
+        value: this.gross(overlapEmbezzlers, (globalOptions.noBarf && !globalOptions.willContinue) ? overlapEmbezzlers : undefined),
       });
     }
 
     const embezzlerCoverage =
       embezzlerQuantity + (overlapEmbezzlers > 0 ? 1 : 0) * this.effectDuration();
 
-    if (!globalOptions.noBarf) {
+    if (!globalOptions.noBarf || globalOptions.willContinue) {
       // unless nobarf, compute the value of barf turns
       // if ascending, break those turns that are not fully covered by a potion into their own value
       const remainingTurns = Math.max(0, totalTurns - embezzlerCoverage - startingTurns);

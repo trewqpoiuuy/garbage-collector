@@ -62,7 +62,7 @@ function coldMedicineCabinet(): void {
   let match;
   const regexp = /descitem\((\d+)\)/g;
   const itemChoices = new Map<Item, number>();
-  if (!globalOptions.noBarf) {
+  if (!globalOptions.noBarf || globalOptions.willContinue) {
     // if spending turns at barf, we probably will be able to get an extro so always consider it
     itemChoices.set($item`Extrovermectin™`, -1);
   }

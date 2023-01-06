@@ -159,7 +159,7 @@ function pantogram(): void {
   if (!Pantogram.have() || Pantogram.havePants()) return;
   let pantogramValue: number;
   if (have($item`repaid diaper`) && have($familiar`Robortender`)) {
-    const expectedBarfTurns = globalOptions.noBarf
+    const expectedBarfTurns = (globalOptions.noBarf && !globalOptions.willContinue)
       ? 0
       : estimatedTurns() - digitizedMonstersRemaining() - embezzlerCount();
     pantogramValue = 100 * expectedBarfTurns;
@@ -262,7 +262,7 @@ function checkBarfQuest(): void {
     return;
   }
 
-  const targets = globalOptions.noBarf
+  const targets = (globalOptions.noBarf && !globalOptions.willContinue)
     ? ["Electrical Maintenance"]
     : ["Track Maintenance", "Electrical Maintenance"]; // In decreasing order of priority
 

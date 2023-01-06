@@ -49,8 +49,8 @@ export function estimatedTurns(): number {
       : 0;
 
   let turns;
-  if (globalOptions.stopTurncount) turns = globalOptions.stopTurncount - myTurncount();
-  else if (globalOptions.noBarf) turns = embezzlerCount();
+  if (globalOptions.stopTurncount && !globalOptions.willContinue) turns = globalOptions.stopTurncount - myTurncount();
+  else if (globalOptions.noBarf  && !globalOptions.willContinue) turns = embezzlerCount();
   else if (globalOptions.saveTurns > 0 || !globalOptions.ascending) {
     turns =
       (myAdventures() +
@@ -58,7 +58,7 @@ export function estimatedTurns(): number {
         pantsgivingAdventures +
         thesisAdventures +
         adventuresAfterChaining -
-        globalOptions.saveTurns) *
+        (globalOptions.willContinue ? 0 : globalOptions.saveTurns)) *
       thumbRingMultiplier;
   } else {
     turns =
