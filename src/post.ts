@@ -46,6 +46,7 @@ import {
   setChoice,
   valueJuneCleaverOption,
 } from "./lib";
+import { teleportEffects } from "./mood";
 import { garboAverageValue, garboValue, sessionSinceStart } from "./session";
 
 function coldMedicineCabinet(): void {
@@ -143,7 +144,7 @@ function skipJuneCleaverChoices(): void {
   }
 }
 function juneCleave(): void {
-  if (get("_juneCleaverFightsLeft") <= 0) {
+  if (get("_juneCleaverFightsLeft") <= 0 && teleportEffects.every((e) => !have(e))) {
     equip($slot`weapon`, $item`June cleaver`);
     skipJuneCleaverChoices();
     withProperty("recoveryScript", "", () => {
@@ -162,13 +163,15 @@ function stillsuit() {
   }
 }
 
+let funguyWorthIt = true;
 function funguySpores() {
   // Mush-Mouth will drop an expensive mushroom if you do a combat with one turn of it left
   if (
     myLevel() >= 15 && // It applies -100 to all stats, and Level 15 seems to be a reasonable place where you will survive -100 to all stats
     !have($effect`Mush-Mouth`) &&
     (!globalOptions.ascending || myAdventures() > 11) &&
-    get("dinseyRollercoasterNext") // If it were to expire on a rails adventure, you'd waste the cost of the spore. Using it when next turn is rails is easiest way to make sure it won't
+    get("dinseyRollercoasterNext") && // If it were to expire on a rails adventure, you'd waste the cost of the spore. Using it when next turn is rails is easiest way to make sure it won't
+    funguyWorthIt
   ) {
     // According to wiki, it has a 75% chance of being a stat mushroom and 25% chance of being another mushroom
     const value =
@@ -182,7 +185,7 @@ function funguySpores() {
         );
     if (acquire(1, $item`Fun-Guy spore`, value, false) > 0) {
       use($item`Fun-Guy spore`);
-    }
+    } else funguyWorthIt = false;
   }
 }
 
